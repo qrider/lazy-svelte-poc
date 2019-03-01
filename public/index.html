@@ -13,6 +13,10 @@
 <body>
 	<div class="app1"></div>
 	<div class="app2"></div>
+	<form onsubmit="updateState(event);">
+		<input type="text" name="ticker" />	
+		<input type="submit" />
+	</form>
 	<script>
 		fetch('./api/app.json')
 			.then(
@@ -38,6 +42,15 @@
 			.catch(function(err) {
 				console.log('Fetch Error :-S', err);
 			});
+		function updateState(event){
+			event.preventDefault();
+			var ticker = event.target.elements["ticker"].value;
+			if(ticker){
+				window.store.set({ticker:ticker});
+			}else{
+				alert("please input a valid value");
+			}
+		}
 	</script>
 </body>
 </html>
