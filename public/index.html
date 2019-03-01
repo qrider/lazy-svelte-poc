@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset='utf8'>
+	<meta name='viewport' content='width=device-width'>
+
+	<title>Svelte app</title>
+
+	<link rel='stylesheet' href='global.css'>
+	<link rel='stylesheet' href='bundle.css'>
+</head>
+
+<body>
+	<div class="app1"></div>
+	<div class="app2"></div>
+	<script>
+		fetch('./api/app.json')
+			.then(
+				function(response) {
+				if (response.status !== 200) {
+					console.log('Looks like there was a problem. Status Code: ' +
+					response.status);
+					return;
+				}
+
+				// Examine the text in the response
+				response.json().then(function(data) {
+					if(data.scripts){
+						for(var i = 0; i < data.scripts.length; i++){
+							var script = document.createElement('script');
+							script.src = data.scripts[0];
+							document.body.appendChild(script);
+						}
+					}
+				});
+				}
+			)
+			.catch(function(err) {
+				console.log('Fetch Error :-S', err);
+			});
+	</script>
+</body>
+</html>
